@@ -1,4 +1,5 @@
 defmodule TwitterApiWeb.Router do
+  alias TwitterApiWeb.AccountController
   use TwitterApiWeb, :router
 
   pipeline :api do
@@ -7,6 +8,13 @@ defmodule TwitterApiWeb.Router do
 
   scope "/api", TwitterApiWeb do
     pipe_through :api
+  end
+
+  scope "/api/accounts" do
+    pipe_through :api
+
+    post("sign_up", AccountController, :sign_up)
+    get("sign_in", AccountController, :sign_in)
   end
 
   # Enables LiveDashboard only for development

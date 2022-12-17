@@ -17,6 +17,10 @@ config :twitter_api, TwitterApiWeb.Endpoint,
   pubsub_server: TwitterApi.PubSub,
   live_view: [signing_salt: "4coo1ynA"]
 
+config :twitter_api, TwitterApiWeb.Auth.Guardian,
+  issuer: "my_app",
+  secret_key: "Secret key. You can use `mix guardian.gen.secret` to get one"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
