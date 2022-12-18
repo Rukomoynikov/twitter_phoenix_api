@@ -43,4 +43,8 @@ defmodule TwitterApiWeb.Auth.Guardian do
     {:ok, token, _claims} = encode_and_sign(account)
     {:ok, account, token}
   end
+
+  def verify_token(token) do
+    {:ok, claims} = decode_and_verify(token)
+  end
 end
