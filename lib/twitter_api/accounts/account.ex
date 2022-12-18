@@ -1,18 +1,18 @@
 defmodule TwitterApi.Accounts.Account do
   use Ecto.Schema
   import Ecto.Changeset
+  alias TwitterApi.Content.Twit
 
   schema "accounts" do
     field :email, :string
     field :hashed_password, :string
+    has_many :twits, Twit
 
     timestamps()
   end
 
   @doc false
   def changeset(account, attrs) do
-    IO.inspect(Map.get(attrs, "email"))
-
     account
     |> cast(%{email: Map.get(attrs, "email"), hashed_password: Map.get(attrs, "password")}, [
       :email,
