@@ -26,6 +26,7 @@ defmodule TwitterApiWeb.Router do
     pipe_through [:api, :authenticated]
 
     post("/", TwitController, :create)
+    delete("/:id", TwitController, :delete)
   end
 
   scope "/app", TwitterApiWeb do

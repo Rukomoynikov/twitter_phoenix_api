@@ -11,8 +11,8 @@ defmodule TwitterApi.AccountsFixtures do
     {:ok, account} =
       attrs
       |> Enum.into(%{
-        email: "some email",
-        hashed_password: "some hashed_password"
+        "email" => "some@email.ru",
+        "password" => "some hashed_password"
       })
       |> TwitterApi.Accounts.create_account()
 

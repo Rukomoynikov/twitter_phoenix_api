@@ -2,10 +2,12 @@ defmodule TwitterApiWeb.TwitControllerTest do
   use TwitterApiWeb.ConnCase
 
   import TwitterApi.ContentFixtures
+  import TwitterApi.AccountsFixtures
 
   alias TwitterApiWeb.Auth.Guardian
   alias TwitterApi.Accounts
   alias TwitterApi.Content.Twit
+  alias TwitterApi.Accounts.Account
 
   @create_attrs %{
     content: "some content"
@@ -21,11 +23,21 @@ defmodule TwitterApiWeb.TwitControllerTest do
 
   describe "create twit" do
     test "when authorized", %{conn: conn} do
-      {:ok, account} = Accounts.create_account(%{"email" => "1@1.ru", "password" => "lkdjagag"})
-      {:ok, account, token} = Guardian.create_token(account)
+      token = get_token()
       conn = put_req_header(conn, "authorization", "Bearer " <> token)
       conn = post(conn, Routes.twit_path(conn, :create), twit: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
+    end
+  end
+
+  describe "delete twit" do
+    test "when author", %{conn: conn} do
+      twit = twit_fixture(%{account_id: account_fixture().id})
+      token_of_wrong_user = get_token()
+
+      conn = put_req_header(conn, "authorization", "Bearer " <> token_of_wrong_user)
+      conn = delete(conn, Routes.twit_path(conn, :delete, twit))
+      assert json_response(conn, 401)
     end
   end
 
@@ -92,8 +104,19 @@ defmodule TwitterApiWeb.TwitControllerTest do
   #   end
   # end
   #
-  defp create_twit(_) do
-    twit = twit_fixture()
+  defp create_twit(account_id \\ nil) do
+    twit = twit_fixture(%{account_id: account_id})
     %{twit: twit}
+  end
+
+  defp get_token(account = %Account{}) do
+    {:ok, account, token} = Guardian.create_token(account)
+    token
+  end
+
+  defp get_token() do
+    account = account_fixture()
+    {:ok, account, token} = Guardian.create_token(account)
+    token
   end
 end
