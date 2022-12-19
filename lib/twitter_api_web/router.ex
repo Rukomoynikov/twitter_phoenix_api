@@ -28,6 +28,11 @@ defmodule TwitterApiWeb.Router do
     post("/", TwitController, :create)
   end
 
+  scope "/app", TwitterApiWeb do
+    get "/", WebappController, :index
+    get "/*path", WebappController, :index
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
