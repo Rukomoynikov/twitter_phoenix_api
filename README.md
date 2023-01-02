@@ -17,3 +17,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+## Frontend part is taken from the article 
+
+[Modern webapps with React](https://bpaulino.com/entries/modern-webapps-with-elixir-phoenix-typescript-react)
